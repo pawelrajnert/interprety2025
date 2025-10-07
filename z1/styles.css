@@ -1,0 +1,150 @@
+:root {
+    --car: #4967ff;
+    --glass: #d9eefc;
+    --rubber: #222;
+    --rim: #ddd;
+    --front-light: #ffe38a;
+    --rear-light: #ff6b6b;
+    --sky: #f2f7ff;
+    --road: #1f2937;
+}
+
+.ground {
+   position: absolute;
+   inset-inline: 0;
+   bottom: 0%;
+   height: 50%;
+   background: var(--road);
+}
+
+.car {
+    position: absolute;
+    bottom: 3%;
+    width: 55%;
+    height: 90%;
+    left: 20%;
+}
+
+.body {
+    content: "";
+    position: absolute;
+    left: 3%;
+    right: 3%;
+    top: 20%;
+    height: 25%;
+    background: var(--car);
+    border-top-right-radius: 30%;
+    border-top-left-radius: 20%;
+}
+
+.roof {
+   position: absolute;
+   left: 15%;
+   right: 25%;
+   top: 0%;
+   height: 30%;
+   background: var(--car);
+    border-top-right-radius: 70%;
+    border-top-left-radius: 50%;    
+} 
+
+.cabin-right {
+   position: absolute;
+   left: 52%;
+   right: 10%;
+   top: 15%;
+   height: 50%;
+   background: #0f172a;
+   border-top-right-radius: 100%;
+}
+
+.cabin-left {
+   position: absolute;
+   left: 10%;
+   right: 52%;
+   top: 15%;
+   height: 50%;
+   background: #0f172a;
+   border-top-left-radius: 60%;   
+}
+
+.stripe {
+   position: absolute;
+   left: 0%;
+   right: 0%;
+   top: 30%;
+   height: 4%;
+   background: #ffffff50;
+}
+
+.door-right {
+    position: absolute;
+    left: 45%;
+    right: 30%;
+    top: 3%;
+    bottom: 55%;
+    border-radius: 10px;
+    border-top-right-radius: 50%;
+    outline: 2px solid #00000015;
+    outline-offset: -2px;
+}
+
+.door-left {
+    position: absolute;
+    right: 55%;
+    left: 18%;
+    top: 3%;
+    bottom: 55%;
+    border-radius: 10px;
+    border-top-left-radius: 50%;
+    outline: 2px solid #00000015;
+    outline-offset: -2px;
+}
+
+.handle-right {
+   position: absolute;
+   left: 49%;
+   top: 25%;
+   width: 7%;
+   height: 2%;
+   background: #fff;
+   border-radius: 999px;
+}
+
+.handle-left {
+   position: absolute;
+   left: 22%;
+   top: 25%;
+   width: 7%;
+   height: 2%;
+   background: #fff;
+   border-radius: 999px;
+}
+
+.light-front, .light-rear {
+   position: absolute;
+   width: 5%;
+   height: 6%;
+   top: 25%;
+   border-radius: 6px;
+}
+.light-front { right: 1%; background: var(--front-light); }
+.light-rear  { left: 1%; background: var(--rear-light); }
+
+.wheel-front, .wheel-rear {
+   position: absolute;
+   top: 40%;
+   width: 18%;
+   aspect-ratio: 1;
+   background: var(--rubber);
+   border-radius: 50%;
+}
+.wheel-front::after, .wheel-rear::after {
+   content: "";
+   position: absolute;
+   inset: 18%;
+   background: var(--rim);
+   border-radius: 50%;
+}
+.wheel-front { left: 7%; }
+.wheel-rear  { right: 7%; }
