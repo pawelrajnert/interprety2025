@@ -1,12 +1,12 @@
 :root {
-    --car: #4967ff;
-    --glass: #d9eefc;
-    --rubber: #222;
-    --rim: #ddd;
+    --car: darkblue;
+    --glass: lightblue;
+    --rubber: black;
+    --rim: gray;
     --front-light: #ffe38a;
     --rear-light: #ff6b6b;
-    --sky: #f2f7ff;
-    --road: #1f2937;
+    --sky: skyblue;
+    --road: slategray;
 }
 
 .ground {
@@ -23,6 +23,10 @@
     width: 55%;
     height: 90%;
     left: 20%;
+}
+
+body {
+    background: var(--sky);
 }
 
 .body {
