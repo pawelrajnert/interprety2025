@@ -30,7 +30,6 @@ body {
 }
 
 .body {
-    content: "";
     position: absolute;
     left: 3%;
     right: 3%;
@@ -48,8 +47,8 @@ body {
    top: 0%;
    height: 30%;
    background: var(--car);
-    border-top-right-radius: 70%;
-    border-top-left-radius: 50%;    
+   border-top-right-radius: 70%;
+   border-top-left-radius: 50%;    
 } 
 
 .cabin-right {
@@ -58,7 +57,7 @@ body {
    right: 10%;
    top: 15%;
    height: 50%;
-   background: #0f172a;
+   background: var(--glass);
    border-top-right-radius: 100%;
 }
 
@@ -68,17 +67,8 @@ body {
    right: 52%;
    top: 15%;
    height: 50%;
-   background: #0f172a;
+   background: var(--glass);
    border-top-left-radius: 60%;   
-}
-
-.stripe {
-   position: absolute;
-   left: 0%;
-   right: 0%;
-   top: 30%;
-   height: 4%;
-   background: #ffffff50;
 }
 
 .door-right {
@@ -90,7 +80,6 @@ body {
     border-radius: 10px;
     border-top-right-radius: 50%;
     outline: 2px solid #00000015;
-    outline-offset: -2px;
 }
 
 .door-left {
@@ -102,7 +91,6 @@ body {
     border-radius: 10px;
     border-top-left-radius: 50%;
     outline: 2px solid #00000015;
-    outline-offset: -2px;
 }
 
 .handle-right {
@@ -112,7 +100,7 @@ body {
    width: 7%;
    height: 2%;
    background: #fff;
-   border-radius: 999px;
+   border-radius: 10px;
 }
 
 .handle-left {
@@ -122,7 +110,7 @@ body {
    width: 7%;
    height: 2%;
    background: #fff;
-   border-radius: 999px;
+   border-radius: 10px;
 }
 
 .light-front, .light-rear {
@@ -132,23 +120,37 @@ body {
    top: 25%;
    border-radius: 6px;
 }
-.light-front { right: 1%; background: var(--front-light); }
-.light-rear  { left: 1%; background: var(--rear-light); }
+.light-front { 
+   right: 1%;
+   background: var(--front-light);
+}
+
+.light-rear  { 
+   left: 1%; 
+   background: var(--rear-light);
+ }
 
 .wheel-front, .wheel-rear {
    position: absolute;
    top: 40%;
-   width: 18%;
-   aspect-ratio: 1;
+   width: 20%;
+   height: 20%;
    background: var(--rubber);
    border-radius: 50%;
+   min-width: 50px;
+   min-height: 40px;
 }
 .wheel-front::after, .wheel-rear::after {
    content: "";
    position: absolute;
-   inset: 18%;
+   inset: 20%;
    background: var(--rim);
    border-radius: 50%;
 }
-.wheel-front { left: 7%; }
-.wheel-rear  { right: 7%; }
+.wheel-front { 
+   left: 7%;
+}
+
+.wheel-rear  {
+   right: 7%;
+}
