@@ -78,18 +78,26 @@ let updateTodoList = function () {
     table.appendChild(thead);
 
     let filterInput = document.getElementById("inputSearch");
-    let fromDateInput = document.getElementById("inputFromDate");
-    let toDateInput = document.getElementById("inputToDate");
+    let fromDateInput = document.getElementById("fromDate");
+    let toDateInput = document.getElementById("toDate");
 
     let searchBarText = filterInput ? (filterInput.value || "").trim().toLowerCase() : "";
-    let fDate = fromDateInput && fromDateInput.value ? new Date(fromDateInput.value) : null;
-    let tDate = toDateInput && toDateInput.value ? new Date(toDateInput.value) : null;
+    let fDate = fromDateInput && fromDateInput.value ? fromDateInput.value : null; // "YYYY-MM-DD"
+    let tDate = toDateInput && toDateInput.value ? toDateInput.value : null;       // "YYYY-MM-DD"
 
     let filteredTasks = todoList.filter(task => {
         let taskTitle = (task.title || "").toLowerCase();
         let taskDescription = (task.description || "").toLowerCase();
-        return searchBarText == "" || taskTitle.includes(searchBarText) || taskDescription.includes(searchBarText);
+        let matchesText = !searchBarText || taskTitle.includes(searchBarText) || taskDescription.includes(searchBarText);
+
+        let taskDate = (task.dueDate || "").substring(0, 10); // "YYYY-MM-DD"
+
+        let matchesFrom = !fDate || taskDate >= fDate;
+        let matchesTo   = !tDate || taskDate <= tDate;
+
+        return matchesText && matchesFrom && matchesTo;
     });
+
 
 
     if (filteredTasks && filteredTasks.length > 0) {
