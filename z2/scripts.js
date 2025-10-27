@@ -82,8 +82,8 @@ let updateTodoList = function () {
     let toDateInput = document.getElementById("toDate");
 
     let searchBarText = filterInput ? (filterInput.value || "").trim().toLowerCase() : "";
-    let fDate = fromDateInput && fromDateInput.value ? fromDateInput.value : null; // "YYYY-MM-DD"
-    let tDate = toDateInput && toDateInput.value ? toDateInput.value : null;       // "YYYY-MM-DD"
+    let fDate = fromDateInput && fromDateInput.value ? fromDateInput.value : null;
+    let tDate = toDateInput && toDateInput.value ? toDateInput.value : null;
 
     let filteredTasks = todoList.filter(task => {
         let taskTitle = (task.title || "").toLowerCase();
