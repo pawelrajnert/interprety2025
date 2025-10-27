@@ -90,7 +90,7 @@ let updateTodoList = function () {
         let taskDescription = (task.description || "").toLowerCase();
         let matchesText = !searchBarText || taskTitle.includes(searchBarText) || taskDescription.includes(searchBarText);
 
-        let taskDate = (task.dueDate || "").substring(0, 10); // "YYYY-MM-DD"
+        let taskDate = (task.dueDate || "");
 
         let matchesFrom = !fDate || taskDate >= fDate;
         let matchesTo   = !tDate || taskDate <= tDate;
