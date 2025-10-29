@@ -12,9 +12,9 @@ This repository contains assignments from the course “Applications in the Inte
 - [@DDanulo](https://github.com/DDanulo)
   
 ## Tasks to do
-- [ ] Todo app
 - [ ] Backend app
 - [ ] Frontend app
 
 ## Finished tasks:
 - [x] HTML + CSS Drawing
+- [x] Todo app
