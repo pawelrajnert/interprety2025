@@ -45,15 +45,15 @@ exports.getOneProduct = async (req, res) => {
 
 exports.addProducts = async (req, res) => {
     try {
-        const {name, description, price, weight, category_id} = req.body
+        const {name, description, unit_price, unit_weight, category_id} = req.body
 
-        if (!isTextEmpty(name) || !isTextEmpty(description)) {
+        if (isTextEmpty(name) || isTextEmpty(description)) {
             return res.status(StatusCodes.BAD_REQUEST).json({
                 error: 'Error while adding product to list, values cannot be empty.',
             })
         }
 
-        if (!isMoreThanZero(price) || !isMoreThanZero(weight)) {
+        if (!isMoreThanZero(unit_price) || !isMoreThanZero(unit_weight)) {
             return res.status(StatusCodes.BAD_REQUEST).json({
                 error: 'Error while adding product to list, values must be more than 0.',
             })
@@ -71,8 +71,8 @@ exports.addProducts = async (req, res) => {
         const [id] = await knex('products').insert({
             name,
             description,
-            price,
-            weight,
+            unit_price,
+            unit_weight,
             category_id
         }).returning('id')
 
@@ -89,7 +89,7 @@ exports.addProducts = async (req, res) => {
 
 exports.updateOneProduct = async (req, res) => {
     try {
-        const {name, description, price, weight, category_id} = req.body
+        const {name, description, unit_price, unit_weight, category_id} = req.body
 
         const prodId = req.params.id
 
@@ -101,13 +101,13 @@ exports.updateOneProduct = async (req, res) => {
             })
         }
 
-        if (!isTextEmpty(name) || !isTextEmpty(description)) {
+        if (isTextEmpty(name) || isTextEmpty(description)) {
             return res.status(StatusCodes.BAD_REQUEST).json({
                 error: 'Error while updating product, values cannot be empty.',
             })
         }
 
-        if (!isMoreThanZero(price) || !isMoreThanZero(weight)) {
+        if (!isMoreThanZero(unit_price) || !isMoreThanZero(unit_weight)) {
             return res.status(StatusCodes.BAD_REQUEST).json({
                 error: 'Error while updating product, values must be more than 0.',
             })
@@ -125,8 +125,8 @@ exports.updateOneProduct = async (req, res) => {
         await knex('products').where('id', getProduct.id).update({
             name,
             description,
-            price,
-            weight,
+            unit_price,
+            unit_weight,
             category_id,
         })
 
