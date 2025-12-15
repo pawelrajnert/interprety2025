@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Laptop Biurowy",
+    "description": "Lekki i wydajny",
+    "unit_price": 2500.00,
+    "unit_weight": 3.00,
+    "category": "Elektronika"
+  },
+  {
+    "name": "Ekspres do kawy",
+    "description": "Lekki i wydajny",
+    "unit_price": 1200.00,
+    "unit_weight": 5.00,
+    "category": "AGD"
+  }
+]

@@ -69,37 +69,11 @@ exports.getOrdersByStatus = async (req, res) => {
 
 exports.addOrders = async (req, res) => {
     try {
-        const {user_name, email, phone_number, items} = req.body;
+        const items = req.body;
 
-        if (isTextEmpty(user_name)) {
-            return res.status(StatusCodes.BAD_REQUEST).json({
-                error: 'Username cannot be empty',
-            });
-        }
+        const userId = req.user.id;
 
-        if (isTextEmpty(email)) {
-            return res.status(StatusCodes.BAD_REQUEST).json({
-                error: 'Email cannot be empty',
-            });
-        }
-
-        if (isTextEmpty(phone_number)) {
-            return res.status(StatusCodes.BAD_REQUEST).json({
-                error: 'Phone number cannot be empty',
-            });
-        }
-
-        if (!isEmailValid(email)) {
-            return res.status(StatusCodes.BAD_REQUEST).json({
-                error: 'Email must be valid',
-            });
-        }
-
-        if (!isPhoneValid(phone_number)) {
-            return res.status(StatusCodes.BAD_REQUEST).json({
-                error: 'Phone number must be valid',
-            });
-        }
+        const userRecord = await knex('users').where('id', userId).first();
 
         if (!items || !Array.isArray(items) || items.length === 0) {
             return res.status(StatusCodes.BAD_REQUEST).json({
@@ -136,9 +110,7 @@ exports.addOrders = async (req, res) => {
         }
 
         const [orderId] = await knex('orders').insert({
-            user_name,
-            email,
-            phone_number,
+            user_id: userRecord.id,
             status_id: unconfirmedStatus.id,
             confirmation_date: null
         }).returning('id');
@@ -236,3 +208,45 @@ exports.updateOneOrder = async (req, res) => {
         });
     }
 };
+
+
+exports.addOpinion = async (req, res) => {
+    const {review, stars} = req.body;
+
+    if (Number(stars) > 5 || Number(stars) < 1){
+        return res.status(400).json();
+    }
+
+    const orderId = req.params.id;
+
+    const order = await knex('orders')
+        .select('orders.*', 'order_statuses.name as status_name')
+        .join('order_statuses', 'orders.status_id', 'order_statuses.id')
+        .where('orders.id', orderId)
+        .first();
+
+    if (!order) {
+        return res.status(StatusCodes.NOT_FOUND).json({
+            message: 'Order not found',
+        });
+    }
+
+    if (order.status_name !== 'FINISHED' && order.status_name !== 'CANCELLED'){
+        return res.status(400).json({
+            message: 'Order is not finished'
+        });
+    }
+
+    const userId = req.user.id;
+
+    if(order.user_id !== userId){
+        return res.status(401).json()
+    }
+
+    await knex('order_review').insert({
+        review: review,
+        stars: stars,
+        order_id: orderId
+    });
+    res.status(201).send('dodano opinię');
+}

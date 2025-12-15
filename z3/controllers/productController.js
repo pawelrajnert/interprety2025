@@ -1,6 +1,11 @@
 const {StatusCodes} = require('http-status-codes')
 const knex = require('../db/setDbCon')
 const {isTextEmpty, isMoreThanZero} = require("../validation/validateData");
+const dotenv = require('dotenv')
+
+dotenv.config();
+const GROQ_KEY = process.env.GROQ_KEY;
+const GROQ_MODEL = process.env.GROQ_MODEL;
 
 exports.getAllProducts = async (req, res) => {
     try {
@@ -26,7 +31,7 @@ exports.getOneProduct = async (req, res) => {
         const product = await knex('products')
             .select('products.*', 'categories.name as category').join('categories', 'products.category_id', 'categories.id')
             .where('products.id', req.params.id).first()
-
+        console.log(product);
         if (product.length === 0) {
             return res.status(StatusCodes.NOT_FOUND).json({
                 message: 'No products found',
@@ -138,4 +143,53 @@ exports.updateOneProduct = async (req, res) => {
             error: 'Error while updating product, cannot update product.',
         })
     }
+}
+
+exports.getSeoDescription = async (req, res) => {
+    const productId = req.params.id
+    const getProduct = await knex('products').where('products.id', productId).first()
+    if (!getProduct) {
+        return res.status(StatusCodes.NOT_FOUND).json({
+            message: 'Product not found',
+        })
+    }
+    const seoHtml = await groqDescription(getProduct);
+    res.status(200).json({
+        productId: getProduct.id,
+        seoDescription: seoHtml
+    });
+}
+
+async function groqDescription(product) {
+    let prompt = `
+    Jesteś ekspertem SEO.
+    Na podstawie danych o produkcie: nazwa:${product.name}, opis: ${product.description}, cena jednostkowa: ${product.unit_price}, waga jednostkowa: ${product.unit_weight}, kategoria: ${product.category} napisz opis tego produktu w formie HTML zgodnie z wymaganiami SEO dla sklepu internetowego.
+       
+        Wymagania:
+        1. Użyj tagów HTML.
+        2. NIE używaj znaczników Markdown, znaków końca linii, znaków \\ Zwróć czysty kod HTML w jednym wierszu.
+        3. Tekst ma być zachęcający do zakupu i zawierać słowa kluczowe z nazwy produktu.
+        4. Struktura: Krótki wstęp, lista zalet (ul), podsumowanie.
+        5. Na początku napisz doctype.
+     `;
+
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${GROQ_KEY}`
+        },
+        body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: [
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ]
+        })
+    });
+    const data = await response.json();
+    const description = data.choices[0]?.message?.content?.trim();
+    return description;
 }

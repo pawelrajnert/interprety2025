@@ -24,6 +24,23 @@ async function createOrderStatuses() {
     }
 }
 
+async function createOrderReviews() {
+    const isCreated = await knex.schema.hasTable('order_review');
+
+    if (!isCreated) {
+        await knex.schema.createTable('order_review', (table) => {
+            table.increments('id').primary();
+            table.string('review', 50).notNullable();
+            table.integer('stars').unsigned().notNullable();
+            table.integer('order_id').unsigned().notNullable();
+
+            table.foreign('order_id').references('orders.id');
+
+            table.timestamps(true, true);
+        });
+    }
+}
+
 async function createProducts() {
     const isCreated = await knex.schema.hasTable('products');
 
@@ -49,14 +66,29 @@ async function createOrders() {
     if (!isCreated) {
         await knex.schema.createTable('orders', (table) => {
             table.increments('id').primary()
-            table.string('user_name', 255).notNullable()
-            table.string('email', 255).notNullable()
-            table.string('phone_number', 20).notNullable()
+            table.integer('user_id').unsigned().notNullable()
             table.timestamp('confirmation_date').nullable()
             table.integer('status_id').unsigned().notNullable()
 
             table.foreign('status_id').references('order_statuses.id')
+            table.foreign('user_id').references('users.id')
 
+            table.timestamps(true, true)
+        });
+    }
+}
+
+async function createUsers(){
+    const isCreated = await knex.schema.hasTable('users');
+    if (!isCreated) {
+        await knex.schema.createTable('users', (table) => {
+            table.increments('id').primary()
+            table.string('user_name', 255).notNullable()
+            table.string('email', 255).notNullable()
+            table.string('password').notNullable();
+            table.enum('role', ['KLIENT', 'PRACOWNIK']).defaultTo('KLIENT');
+            table.string('phone_number', 20).notNullable()
+            table.string('refresh_token');
             table.timestamps(true, true)
         });
     }
@@ -87,7 +119,9 @@ async function createAllTables() {
         await createOrderStatuses()
         await createProducts()
         await createOrders()
-
+        await createUsers()
+        await createOrderReviews()
+        await createOrderItems()
     } catch (error) {
         console.error('Error while creating tables', error);
         throw error;
