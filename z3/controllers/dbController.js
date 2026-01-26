@@ -10,14 +10,19 @@ exports.initDbData = async (req, res) => {
     if (products.length !== 0){
         return res.status(400).json();
     }
-    const filePath = path.join(__dirname, '..', 'data.json');
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
+
+    if (!req.file) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ message: "No file uploaded" });
+    }
+
     let productsToImport;
 
     try {
+        const fileContent = req.file.buffer.toString('utf-8');
         productsToImport = JSON.parse(fileContent);
     } catch (e) {
-        return res.status(500).json();
+        console.error("JSON Parse Error:", e);
+        return res.status(StatusCodes.BAD_REQUEST).json({ message: "Invalid JSON format in file" });
     }
     if (!Array.isArray(productsToImport) || productsToImport.length === 0) {
         return res.status(400).json();

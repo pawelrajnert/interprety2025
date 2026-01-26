@@ -153,14 +153,62 @@ exports.getSeoDescription = async (req, res) => {
             message: 'Product not found',
         })
     }
-    const seoHtml = await groqDescription(getProduct);
+    const seoHtml = await groqSEODescription(getProduct);
     res.status(200).json({
         productId: getProduct.id,
         seoDescription: seoHtml
     });
 }
 
+exports.getDescription = async (req, res) => {
+    const productId = req.params.id
+    const getProduct = await knex('products').where('products.id', productId).first()
+    if (!getProduct) {
+        return res.status(StatusCodes.NOT_FOUND).json({
+            message: 'Product not found',
+        })
+    }
+    const desc = await groqDescription(getProduct);
+    res.status(200).json({
+        productId: getProduct.id,
+        description: desc
+    });
+}
+
+
 async function groqDescription(product) {
+    let prompt = `
+    Jesteś ekspertem opisu.
+    Na podstawie danych o produkcie: nazwa:${product.name}, opis: ${product.description}, cena jednostkowa: ${product.unit_price}, waga jednostkowa: ${product.unit_weight}, kategoria: ${product.category} napisz opis tego produktu w formie plaintext dla sklepu internetowego.
+
+    Wymagania:
+    1. NIE używaj znaczników Markdown, znaków końca linii, znaków \\ Zwróć czysty plaintext.
+    2. Tekst ma być zachęcający do zakupu i zawierać słowa kluczowe z nazwy produktu.
+    3. Struktura: Krótki wstęp, zalety, podsumowanie.`;
+
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${GROQ_KEY}`
+        },
+        body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: [
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ]
+        })
+    });
+    const data = await response.json();
+    const description = data.choices[0]?.message?.content?.trim();
+    return description;
+}
+
+
+async function groqSEODescription(product) {
     let prompt = `
     Jesteś ekspertem SEO.
     Na podstawie danych o produkcie: nazwa:${product.name}, opis: ${product.description}, cena jednostkowa: ${product.unit_price}, waga jednostkowa: ${product.unit_weight}, kategoria: ${product.category} napisz opis tego produktu w formie HTML zgodnie z wymaganiami SEO dla sklepu internetowego.

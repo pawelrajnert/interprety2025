@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const orders = require('../controllers/orderController');
-const {authenticateToken} = require("../middleware/authMiddleware");
+const {authenticateToken, requireRole} = require("../middleware/authMiddleware");
 
-router.get('/', authenticateToken, orders.getAllOrders)
+router.get('/', authenticateToken, requireRole('PRACOWNIK'), orders.getAllOrders)
 router.post('/', authenticateToken, orders.addOrders)
 router.patch('/:id', authenticateToken, orders.updateOneOrder)
 router.get('/status/:id', authenticateToken, orders.getOrdersByStatus)

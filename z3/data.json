@@ -1,16 +1,72 @@
 [
   {
-    "name": "Laptop Biurowy",
-    "description": "Lekki i wydajny",
-    "unit_price": 2500.00,
-    "unit_weight": 3.00,
+    "name": "Smartfon Galaxy X",
+    "description": "Nowoczesny design i świetna bateria",
+    "unit_price": 3200.00,
+    "unit_weight": 0.20,
     "category": "Elektronika"
   },
   {
-    "name": "Ekspres do kawy",
-    "description": "Lekki i wydajny",
-    "unit_price": 1200.00,
-    "unit_weight": 5.00,
+    "name": "Biurko Gamingowe",
+    "description": "Regulowana wysokość i podświetlenie LED",
+    "unit_price": 850.00,
+    "unit_weight": 25.00,
+    "category": "Furniture"
+  },
+  {
+    "name": "Słuchawki Bezprzewodowe",
+    "description": "Redukcja szumów i wysoka jakość dźwięku",
+    "unit_price": 450.00,
+    "unit_weight": 0.30,
+    "category": "Elektronika"
+  },
+  {
+    "name": "Odkurzacz Automatyczny",
+    "description": "Inteligentne mapowanie pomieszczeń",
+    "unit_price": 1800.00,
+    "unit_weight": 3.50,
     "category": "AGD"
+  },
+  {
+    "name": "Krzesło Biurowe Ergonomiczne",
+    "description": "Wsparcie odcinka lędźwiowego",
+    "unit_price": 600.00,
+    "unit_weight": 12.00,
+    "category": "Furniture"
+  },
+  {
+    "name": "Blender Kielichowy",
+    "description": "Duża moc do kruszenia lodu",
+    "unit_price": 250.00,
+    "unit_weight": 2.10,
+    "category": "AGD"
+  },
+  {
+    "name": "Monitor 27 cali 4K",
+    "description": "Idealny do pracy i filmów",
+    "unit_price": 1400.00,
+    "unit_weight": 5.50,
+    "category": "Elektronika"
+  },
+  {
+    "name": "Klawiatura Mechaniczna",
+    "description": "Przełączniki Red, podświetlenie RGB",
+    "unit_price": 350.00,
+    "unit_weight": 1.10,
+    "category": "Elektronika"
+  },
+  {
+    "name": "Mikrofalówka Inwertorowa",
+    "description": "Szybkie podgrzewanie bez obracania",
+    "unit_price": 550.00,
+    "unit_weight": 11.00,
+    "category": "AGD"
+  },
+  {
+    "name": "Dysk Zewnętrzny SSD 1TB",
+    "description": "Szybki transfer danych USB-C",
+    "unit_price": 400.00,
+    "unit_weight": 0.15,
+    "category": "Elektronika"
   }
 ]

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const knex = require('../db/setDbCon');
 const {isTextEmpty, isEmailValid, isPhoneValid} = require("../validation/validateData");
 const {StatusCodes} = require("http-status-codes");
+const generator = require('generate-password');
 
 function generateAccessToken(user) {
     return jwt.sign(
@@ -104,3 +105,14 @@ exports.register = async (req, res) => {
     //     res.status(500).send('Błąd tworzenia użytkownika');
     // }
 };
+
+exports.password = async(req, res) => {
+    const password = generator.generate({
+        length: 16,
+        numbers: true,
+        symbols: true,
+        uppercase: true,
+        strict: true
+    });
+    res.status(200).json({password: password});
+}

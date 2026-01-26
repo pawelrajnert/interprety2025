@@ -178,7 +178,7 @@ exports.updateOneOrder = async (req, res) => {
             });
         }
 
-        const statusOrder = ['UNCONFIRMED', 'CONFIRMED', 'COMPLETED'];
+        const statusOrder = ['UNCONFIRMED', 'CONFIRMED', 'COMPLETED', "FINISHED"];
         const currentIndex = statusOrder.indexOf(currentStatusName);
         const newIndex = statusOrder.indexOf(newStatusName);
 
